@@ -1,7 +1,19 @@
 <?php
 /* 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Config file for the tets
+## YAML CDN configuration file
+patterns:
+  '(fileadmin/[^"]*\.css)':
+    cdn_prefix: http://a0.twimg.com/a/1266605807/images/
+    replace: true
+  '(fileadmin/[^"]*\.js)':
+    replace: false
+files:
+  "jquery-1.3.2.min.js":
+   replace: true
+   cdn_url: http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js
+  "typo3temp/pics/3a5338c306.jpg":
+    replace: false
  */
 /**
  * [extConfig:tx_cdnfiles:private] => Array
@@ -21,38 +33,6 @@
             [remove_typo3temp_directory] => 1
         )
 
-        [specialConfigurationObj:tx_cdnfiles:private] => tx_cdnfiles_specialconfiguration Object
-        (
-            [config:tx_cdnfiles_specialconfiguration:private] => Array
-                (
-                    [patterns] => Array
-                        (
-                            [(fileadmin/[^"]*\.css)] => Array
-                                (
-                                    [cdn_prefix] => http://a0.twimg.com/a/1266605807/images/
-                                    [replace] =>
-                                )
-
-                        )
-
-                    [files] => Array
-                        (
-                            [jquery-1.3.2.min.js] => Array
-                                (
-                                    [replace] => 1
-                                    [cdn_url] => http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js
-                                )
-
-                            [typo3temp/pics/3a5338c306.jpg] => Array
-                                (
-                                    [replace] =>
-                                )
-
-                        )
-
-                )
-
-        )
 
  *
  */

@@ -5,9 +5,12 @@
  */
 require_once t3lib_extMgm::extPath('cdnfiles').'class.tx_cdnfiles_specialconfiguration.php';
 /**
- * Description of classtx_cdnfiles
+ * Description of classtx_cdnfiles:
+ * This class do all the replacement work througth hooks in ['tslib/class.tslib_fe.php']
+ * The main method is: doReplacement
  *
- * @author falcifer
+ *
+ * @author Fernando Arconada fernando.arconada@gmail.com
  */
 class tx_cdnfiles {
 
@@ -19,6 +22,9 @@ class tx_cdnfiles {
      */
     private $currentDirectory ='';
 
+    /**
+     * @var object this object reads the YAML configuration file and tests each file against it to look for any special configuration
+     */
     private $specialConfigurationObj = null;
 
     public function __construct(){
@@ -33,11 +39,24 @@ class tx_cdnfiles {
         $this->specialConfigurationObj = t3lib_div::makeInstance("tx_cdnfiles_specialconfiguration",$this->extConfig['advancedconfig_file']);
     }
 
+    /**
+     *
+     * @param string $content HTML of the page, file references should be in quotes
+     * @return string HTML with the replaced content
+     */
     public function doReplacement($content){
 
+        /**
+         * Do I have to work with, fileadmin/ uploads/ typo3temp/pics?
+         * each one could have its own config
+         */
+
         if ($this->extConfig['replace_fileadmin_directory']){
+            // $this->currentDirectory is used inside 'callbackReplacementFunction'
             $this->currentDirectory='fileadmin';
+            // pattern to match the fileadmin directory
             $pattern = $this->extConfig['fileadmin_regexp'];
+            //always testing case insensitive
             $pattern = '|"'.$pattern.'"|i';
             $content = preg_replace_callback($pattern, array( &$this, 'callbackReplacementFunction'), $content);
         }
@@ -58,9 +77,10 @@ class tx_cdnfiles {
     }
 
     /**
+     * This function is triggered for every PCRE match and it proccess the filereferences
      *
      * @param array $text as matched in a PCRE regular expression
-     * @return string
+     * @return string The file reference proccessed in quotes
      */
     private function callbackReplacementFunction($text){
         
@@ -72,8 +92,12 @@ class tx_cdnfiles {
             }
             //Look for a special configuration for this file
             $proccessedFile = $this->specialConfigurationObj->getFile($searchedFile);
+            /**
+             * If !$proccessedFile is because there isnt any special configuration for that file
+             */
             if (!$proccessedFile){
                 //If no have any special configuration just apply the common config
+                /// because I have $this->currentDirectory, I dont have to use a regular expression again to know in that directory i'm working
                 switch($this->currentDirectory){
                     case 'fileadmin':                       
                         $proccessedFile = $this->extConfig['fileadmin_urlprefix'] . $searchedFile;
@@ -88,13 +112,16 @@ class tx_cdnfiles {
                 }
             }
 
-            // at least you should get your original file
+            // at least you should get your original file, but you should never go into this confition
             if(!$proccessedFile){
                 $proccessedFile = $searchedFile;
             }
 
+            /**
+             * $proccessedFile != $searchedFile is because you did something with the file
+             */
             if($proccessedFile != $searchedFile){
-                //should i replace the fileadmin/ uploads/ or typo3temp/ directory
+                //should I remove the fileadmin/ uploads/ or typo3temp/ directory
                 if($this->extConfig['remove_fileadmin_directory']){
                                 $proccessedFile = str_replace('/fileadmin/', '/', $proccessedFile);
                 }
