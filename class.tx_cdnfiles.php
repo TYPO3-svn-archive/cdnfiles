@@ -10,12 +10,12 @@ require_once t3lib_extMgm::extPath('cdnfiles').'class.tx_cdnfiles_specialconfigu
  * @author falcifer
  */
 class tx_cdnfiles {
-    
+
     /** @var $extConfig array holds the extension configuration */
     private $extConfig = array();
 
     /** @var $currentDirectory string with current replacement directory, cause
-     * I dont know how to pass more arguments to the callback function
+     * I dont know how to pass more arguments to the callback function and i dont want to call pcre functions twice
      */
     private $currentDirectory ='';
 
@@ -56,46 +56,59 @@ class tx_cdnfiles {
         return $content;
 
     }
-    
+
+    /**
+     *
+     * @param array $text as matched in a PCRE regular expression
+     * @return string
+     */
     private function callbackReplacementFunction($text){
+        
             // If you have a regular expression with () then use the first () variable
             if(isset($text[1])){
                 $searchedFile = $text[1];
             }else{
                 $searchedFile = $text[0];
             }
-
             //Look for a special configuration for this file
-            $file = $this->specialConfigurationObj->getFile($searchedFile);
-
-            if ($file == $text[1] || $file == '' ){
+            $proccessedFile = $this->specialConfigurationObj->getFile($searchedFile);
+            if (!$proccessedFile){
                 //If no have any special configuration just apply the common config
                 switch($this->currentDirectory){
                     case 'fileadmin':                       
-                        $file = $this->extConfig['fileadmin_urlprefix'] . $searchedFile;
+                        $proccessedFile = $this->extConfig['fileadmin_urlprefix'] . $searchedFile;
                         break;
                     case 'uploads':                       
-                        $file = $this->extConfig['uploads_urlprefix'] . $searchedFile;
+                        $proccessedFile = $this->extConfig['uploads_urlprefix'] . $searchedFile;
                         break;
                     case 'typo3temppics':                     
-                        $file = $this->extConfig['typo3temppics_urlprefix'] . $searchedFile;
+                        $proccessedFile = $this->extConfig['typo3temppics_urlprefix'] . $searchedFile;
                         break;
 
                 }
             }
 
-            //should i replace the fileadmin/ uploads/ or typo3temp/ directory
-            if($this->extConfig['remove_fileadmin_directory']){
-                            $file = str_replace('/fileadmin/', '/', $file);
-            }
-            if($this->extConfig['remove_uploads_directory']){
-                            $file = str_replace('/uploads/', '/', $file);
-            }
-            if($this->extConfig['remove_typo3temp_directory']){
-                            $file = str_replace('/typo3temp/', '/', $file);
+            // at least you should get your original file
+            if(!$proccessedFile){
+                $proccessedFile = $searchedFile;
             }
 
-            return '"'.$file.'"';
+            if($proccessedFile != $searchedFile){
+                //should i replace the fileadmin/ uploads/ or typo3temp/ directory
+                if($this->extConfig['remove_fileadmin_directory']){
+                                $proccessedFile = str_replace('/fileadmin/', '/', $file);
+                }
+                if($this->extConfig['remove_uploads_directory']){
+                                $proccessedFile = str_replace('/uploads/', '/', $file);
+                }
+                if($this->extConfig['remove_typo3temp_directory']){
+                                $proccessedFile = str_replace('/typo3temp/', '/', $file);
+                }
+
+            }
+            
+
+            return '"'.$proccessedFile.'"';
 
     }
     /**
