@@ -96,18 +96,17 @@ class tx_cdnfiles {
             if($proccessedFile != $searchedFile){
                 //should i replace the fileadmin/ uploads/ or typo3temp/ directory
                 if($this->extConfig['remove_fileadmin_directory']){
-                                $proccessedFile = str_replace('/fileadmin/', '/', $file);
+                                $proccessedFile = str_replace('/fileadmin/', '/', $proccessedFile);
                 }
                 if($this->extConfig['remove_uploads_directory']){
-                                $proccessedFile = str_replace('/uploads/', '/', $file);
+                                $proccessedFile = str_replace('/uploads/', '/', $proccessedFile);
                 }
                 if($this->extConfig['remove_typo3temp_directory']){
-                                $proccessedFile = str_replace('/typo3temp/', '/', $file);
+                                $proccessedFile = str_replace('/typo3temp/', '/', $proccessedFile);
                 }
 
             }
             
-
             return '"'.$proccessedFile.'"';
 
     }

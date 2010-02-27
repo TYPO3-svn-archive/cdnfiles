@@ -24,14 +24,13 @@ class tx_cdnfiles_specialconfiguration implements t3lib_Singleton {
     }
 
     public function getFile($originalFile){
-        
         //lets look in the files section
         foreach ($this->config['files'] as $file => $fileConfig){
             if(preg_match("|".$file."|i", $originalFile)){
                 if($fileConfig['replace']){
                     return $fileConfig['cdn_url'];
                 }else{
-                    return null;
+                    return $originalFile;
                 }
 
             }
@@ -49,6 +48,8 @@ class tx_cdnfiles_specialconfiguration implements t3lib_Singleton {
 
             }
         }
+
+        return null;
         
     }
 }

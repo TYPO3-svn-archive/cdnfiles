@@ -26,7 +26,7 @@ typo3temppics_urlprefix =
 # cat=basic/enable/typo3temppics; type=string; label=Regular expression PCRE pattern for fileadmin/ directory
 typo3temppics_regexp = |"typo3temp/pics/[^"]*"|i
 # cat=basic/enable/typo3temppics; type=boolean; label=remove typo3temp/ directory from the path.
-remove_typo3temppics_directory = 1
+remove_typo3temp_directory = 1
 
 
 
