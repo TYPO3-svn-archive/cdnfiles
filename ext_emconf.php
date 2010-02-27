@@ -1,9 +1,9 @@
 <?php
 
 ########################################################################
-# Extension Manager/Repository config file for ext "cdnfiles".
+# Extension Manager/Repository config file for ext "dam3s".
 #
-# Auto generated 24-02-2010 16:33
+# Auto generated 19-02-2010 17:05
 #
 # Manual updates:
 # Only the data in the array - everything else is removed by next
@@ -15,7 +15,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'description' => 'Replace local files for CDN URLs',
 	'category' => 'plugin',
 	'shy' => 0,
-	'version' => '0.9.0',
+	'version' => '0.1.0',
 	'dependencies' => '',
 	'conflicts' => '',
 	'priority' => '',
@@ -34,15 +34,15 @@ $EM_CONF[$_EXTKEY] = array(
 	'CGLcompliance_note' => '',
 	'constraints' => array(
 		'depends' => array(
-			'php' => '5.3.0-0.0.0',
-			'typo3' => '4.3.0-0.0.0',
+			'php' => '4.0.0-0.0.0',
+			'typo3' => '3.8.0-0.0.0',
 		),
 		'conflicts' => array(
 		),
 		'suggests' => array(
 		),
 	),
-	'_md5_values_when_last_written' => 'a:8:{s:21:"class.tx_cdnfiles.php";s:4:"f378";s:42:"class.tx_cdnfiles_specialconfiguration.php";s:4:"ce5b";s:21:"ext_conf_template.txt";s:4:"211c";s:17:"ext_localconf.php";s:4:"0315";s:14:"lib/sfYaml.php";s:4:"2b71";s:20:"lib/sfYamlDumper.php";s:4:"2819";s:20:"lib/sfYamlInline.php";s:4:"7b7e";s:20:"lib/sfYamlParser.php";s:4:"748a";}',
+	'_md5_values_when_last_written' => 'a:7:{s:9:"ChangeLog";s:4:"2f90";s:21:"ext_conf_template.txt";s:4:"22ad";s:12:"ext_icon.gif";s:4:"6103";s:14:"ext_tables.php";s:4:"c645";s:14:"doc/manual.sxw";s:4:"ec3d";s:41:"modfunc_index/class.tx_dam3s_s3upload.php";s:4:"4a99";s:27:"modfunc_index/locallang.xml";s:4:"8fe4";}',
 	'suggests' => array(
 	),
 );
