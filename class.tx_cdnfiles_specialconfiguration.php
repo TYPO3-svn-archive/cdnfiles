@@ -31,7 +31,7 @@ class tx_cdnfiles_specialconfiguration implements t3lib_Singleton {
                 if($fileConfig['replace']){
                     return $fileConfig['cdn_url'];
                 }else{
-                    return $originalFile;
+                    return null;
                 }
 
             }
